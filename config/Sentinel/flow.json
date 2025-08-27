@@ -1,0 +1,23 @@
+[
+  {
+    "resource": "/api/content/noteDetailedContent",
+    "grade": 1,
+    "count": 30,
+    "controlBehavior": 0,
+    "clusterMode": false
+  },
+  {
+    "resource": "/api/treeNode/noteTree",
+    "grade": 1,
+    "count": 15,
+    "controlBehavior": 0,
+    "clusterMode": false
+  },
+  {
+    "resource": "/api/admin/treeNode/visibility",
+    "grade": 1,
+    "count": 30,
+    "controlBehavior": 0,
+    "clusterMode": false
+  }
+]

@@ -1,0 +1,14 @@
+content-scan:
+  skipNames:
+    - "-1_figures"
+    - "阳明心学"
+    - "new"
+    - "ReadPapers"
+    - "Papers"
+    - "bazi"
+    - "ProjectsNotes"
+    - "CloudServer"
+  skipPrefixes:
+    - "."
+  skipSuffixes:
+    - ".json"

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maihehe.blogcore._04_mapper.TopicMapper">
+    <insert id="batchInsert">
+        INSERT INTO maihehe_topic (id, path , name, category, visible, updated_time)
+        VALUES
+        <foreach collection="topics" item="topic" separator=",">
+            (#{topic.id}, #{topic.path}, #{topic.name}, #{topic.category}, #{topic.visible}, #{topic.updatedTime})
+        </foreach>
+    </insert>
+
+    <delete id="deleteByPaths">
+        DELETE FROM maihehe_topic
+        WHERE path IN
+        <foreach collection="topics" item="topic" separator="," open="(" close=")">
+            #{topic.path}
+        </foreach>
+    </delete>
+
+    <select id="selectAllTopicCategoryDTOs" resultType="com.maihehe.blogcore._06_DTO.normalDTO.TopicCategoryDTO">
+        SELECT
+            t.id            AS TopicId,
+            t.name          AS TopicName,
+            t.path          AS TopicPath,
+            NULLIF(t.category, '') AS category
+        FROM maihehe_topic t
+        ORDER BY t.id
+    </select>
+
+
+</mapper>

@@ -1,0 +1,26 @@
+[
+  {
+    "resource": "api/content/noteDetailedContent",
+    "grade": 0,
+    "count": 200,
+    "timeWindow": 20,
+    "minRequestAmount": 10,
+    "statIntervalMs": 60000
+  },
+  {
+    "resource": "api/treeNode/noteTree",
+    "grade": 1,
+    "count": 0.5,
+    "timeWindow": 15,
+    "minRequestAmount": 10,
+    "statIntervalMs": 60000
+  },
+  {
+    "resource": "api/admin/treeNode/visibility",
+    "grade": 2,
+    "count": 5,
+    "timeWindow": 30,
+    "minRequestAmount": 10,
+    "statIntervalMs": 60000
+  }
+]
