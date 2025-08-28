@@ -8,4 +8,5 @@ https://hub.docker.com/r/maiyihe/blog_backend
 https://github.com/maiyihe/BlogConfig
 
 ## 项目运行原理，与推荐的日常工作流
-<img width="139" height="140" alt="image" src="https://github.com/user-attachments/assets/0620d07d-f025-4960-9819-7772872a8293" />
+<img width="1427" height="1142" alt="image" src="https://github.com/user-attachments/assets/79d61af9-f5f2-4c59-ad4c-b2c7a3d0c266" />
+
