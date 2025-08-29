@@ -14,6 +14,8 @@ https://hub.docker.com/r/maiyihe/blog_backend
 ### 2.2 contentScan 的原理
 <img width="1371" height="845" alt="image" src="https://github.com/user-attachments/assets/670a8ddd-58b5-4b1d-8964-7913f02657a1" />
 
+- 比较本地目录下的文件和数据库当中的文件，然后执行增量更新
+
 ### 2.3 关键数据表Topic和Note
 <img width="1688" height="1087" alt="image" src="https://github.com/user-attachments/assets/f36110d2-6433-43ae-a915-907d1ff94277" />
 
