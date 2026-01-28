@@ -1,11 +1,13 @@
 # BlogBackend
 个人博客 SpringBoot 后端项目源码
-- 建议结合 Obsidian 进行使用
 
 ## 一、DockerHub
 https://hub.docker.com/r/maiyihe/blog_backend
 
 ## 二、项目说明
+- 对于图片，采用阿里云 oss 预签名，设置了签发时间
+- Sentinel 实现限流降级、熔断
+- 与 Redis 缓存一致性的解决方式较为暴力——在 contentScan 的时候直接清空缓存
 ### 2.1 主体部分运行原理，与使用本项目记录博客时的日常工作流
 <img width="1424" height="1117" alt="image" src="https://github.com/user-attachments/assets/8c701605-afb5-4bbb-b6d7-b8a6c00c3924" />
 
