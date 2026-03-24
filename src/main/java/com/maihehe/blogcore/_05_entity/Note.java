@@ -41,4 +41,9 @@ public class Note implements Serializable {
     private Boolean visible;
 
     private LocalDateTime updatedTime;
+
+    // 文件元信息（用于扫描增量判断）
+    private Long fileMtime;
+    private Long fileSize;
+    private String contentHash;
 }

@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.File;
 
 @SpringBootTest
-class BlogCoreApplicationTests {
+class BlogCoreApplicationTest {
     @Value("${aliyun.oss.endpoint}")
     private String endpoint;
 

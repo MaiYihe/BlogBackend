@@ -39,6 +39,7 @@ public class Topic implements Serializable {
     @TableField(value = "updated_time", update = "now()")
     private LocalDateTime updatedTime;
 
+
     @Override
     public String toString() {
         return "Topic{path=" + path + "}";

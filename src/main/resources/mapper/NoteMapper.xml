@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.maihehe.blogcore._04_mapper.NoteMapper">
     <insert id="batchInsert">
-        INSERT INTO maihehe_note (id, topic_path, current_path, name, parent_path, is_folder, visible, updated_time)
+        INSERT INTO maihehe_note (id, topic_path, current_path, name, parent_path, is_folder, visible, updated_time, file_mtime, file_size, content_hash)
         VALUES
         <foreach collection="notes" item="note" separator=",">
             (#{note.id}, #{note.topicPath}, #{note.currentPath}, #{note.name}, #{note.parentPath},
-            #{note.isFolder}, #{note.visible}, #{note.updatedTime})
+            #{note.isFolder}, #{note.visible}, #{note.updatedTime}, #{note.fileMtime}, #{note.fileSize}, #{note.contentHash})
         </foreach>
     </insert>
 

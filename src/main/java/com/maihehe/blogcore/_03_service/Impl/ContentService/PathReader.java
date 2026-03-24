@@ -21,13 +21,20 @@ import java.util.stream.Stream;
 @Service
 public class PathReader {
     private static final Path DATA_DIR = Paths.get("data");
-    private final List<Topic> topics;
-
     private final NoteScanRulesService skipService; // ← 构造器注入更好
     public PathReader(NoteScanRulesService skipService) {
         this.skipService = skipService;
+    }
 
-        // 构造 topics
+    /**
+     * 读取 Topics
+     * @return
+     */
+    public List<Topic> readTopics() {
+        return scanTopics();
+    }
+
+    private List<Topic> scanTopics() {
         List<Topic> topicList = new ArrayList<>();
         try (Stream<Path> s = Files.list(DATA_DIR)) {
             List<Path> topicDirs = s
@@ -47,24 +54,15 @@ public class PathReader {
         } catch (IOException e) {
             throw new UncheckedIOException("读取数据目录失败: " + DATA_DIR, e);
         }
-        this.topics = topicList;
+        return topicList;
     }
-
-    /**
-     * 读取 Topics
-     * @return
-     */
-    public List<Topic> readTopics() {
-        return this.topics;
-    }
-
 
     /**
      * 读取 Topics 下，所有 List<Note> 的拼接
      * @return
      */
     public List<Note> readNotesInTopics() {
-        List<Path> topicPaths = topics.stream()
+        List<Path> topicPaths = readTopics().stream()
                 .map(Topic::getPath)          // 从 Topic 取出 String 路径
                 .map(Paths::get)              // String → Path
                 .toList();                    // 收集为 List<Path>
@@ -103,6 +101,9 @@ public class PathReader {
                 note.setParentPath(parent != null ? parent.toString() : null);
 
                 note.setUpdatedTime(LocalDateTime.now());
+                note.setFileMtime(safeMtime(path));
+                note.setFileSize(safeSize(path));
+                note.setContentHash(null);
                 result.add(note);
                 if (isDirectory) {
                     result.addAll(readSubNotes(path, topicPath));
@@ -120,7 +121,7 @@ public class PathReader {
      * @return
      */
     public List<Path> readTopicFigures(){
-        List<Path> topicPaths = topics.stream()
+        List<Path> topicPaths = readTopics().stream()
                 .map(Topic::getPath)          // 从 Topic 取出 String 路径
                 .map(Paths::get)              // String → Path
                 .toList();                    // 收集为 List<Path>
@@ -138,5 +139,21 @@ public class PathReader {
                 })
                 .toList();
         return allFigurePaths;
+    }
+
+    private static Long safeMtime(Path path) {
+        try {
+            return Files.getLastModifiedTime(path, LinkOption.NOFOLLOW_LINKS).toMillis();
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    private static Long safeSize(Path path) {
+        try {
+            return Files.isRegularFile(path, LinkOption.NOFOLLOW_LINKS) ? Files.size(path) : null;
+        } catch (IOException e) {
+            return null;
+        }
     }
 }

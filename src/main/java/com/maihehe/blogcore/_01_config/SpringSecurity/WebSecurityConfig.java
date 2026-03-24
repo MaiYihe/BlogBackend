@@ -13,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -37,9 +40,37 @@ public class WebSecurityConfig {
 //                        .requestMatchers("/api/admin/**").permitAll() // 临时放行 /api/admin/**
                                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/api/**").permitAll() //临时放行
+                                .requestMatchers("/error").permitAll()
                                 // 放行 Swagger UI 和 API 文档路径
 //                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/webjars/**").permitAll()
                                 .anyRequest().authenticated() // 其他接口必须登录
+                )
+                .exceptionHandling(ex -> ex
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            var auth = SecurityContextHolder.getContext().getAuthentication();
+                            String user = auth != null ? String.valueOf(auth.getName()) : "anonymous";
+                            String authorities = auth != null ? String.valueOf(auth.getAuthorities()) : "[]";
+                            log.warn(
+                                    "Access denied: method={} uri={} ip={} user={} authorities={} message={}",
+                                    request.getMethod(),
+                                    request.getRequestURI(),
+                                    request.getRemoteAddr(),
+                                    user,
+                                    authorities,
+                                    accessDeniedException.getMessage()
+                            );
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                        })
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            log.warn(
+                                    "Unauthorized: method={} uri={} ip={} message={}",
+                                    request.getMethod(),
+                                    request.getRequestURI(),
+                                    request.getRemoteAddr(),
+                                    authException.getMessage()
+                            );
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        })
                 )
 
                 // 插入自定义JWT校验
